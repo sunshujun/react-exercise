@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+</head>
+<body>
+   <div id="example"></div>
+   <script type="text/babel">
+        var FormSubmit=React.createClass({
+           getInitialState:function(){
+                return {value:"hello"};
+           },
+           change:function(event){
+                this.setState({value:event.target.value})
+           },
+           render:function(){
+                return (
+                    <div>
+	                <input type="text" name="tttt" onChange={this.change} />
+	                <p>{this.state.value}</p>
+                     </div>
+                )
+           }
+        })
+
+        ReactDOM.render(
+         <FormSubmit />,
+         document.getElementById("example")
+        )
+   </script>
+</body>
+</html>

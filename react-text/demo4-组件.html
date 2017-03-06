@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>creatClass</title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+</head>
+<body>
+     <div id="example"></div>
+     <script type="text/babel">
+            var message={name:"sunshujun",add:"jiangxiyingtan",age:23,sex:"man"}
+     	var HelloMessage=React.createClass({
+	          render:function(){
+	              return  <div>
+	                         <h1>hello,{this.props.message.name}!!!</h1>
+                                     <h1>address:{this.props.message.add}</h1>
+                                     <h1>age:{this.props.message.age}</h1>
+                                     <h1>sex:{this.props.message.sex}</h1>
+                                     </div>; 
+	          }
+	     });	 
+	     ReactDOM.render(
+	         <HelloMessage  message={message} />,
+	         document.getElementById("example"),
+	         function(){
+	           console.log("组件渲染完成！！！");
+	         }
+	      )
+	     
+     </script>
+</body>
+</html>

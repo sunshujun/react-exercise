@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+</head>
+<body>
+      <div id="example"></div>
+      <script type="text/babel">
+      	var component=[<h1>hello,sun！！！</h1>,
+		      	  <h1>hello,shu!!</h1>,
+		      	   <h1>hello,jun!!</h1>
+		      	   ]; 
+            ReactDOM.render(
+               <div>
+                  {component}
+               </div>,
+               document.getElementById("example"),
+               function(){
+                 console.log("组件是一个数组！")
+               }
+            )
+      </script>
+      
+</body>
+</html>

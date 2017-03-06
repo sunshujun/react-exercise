@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+	<script type="text/javascript" src="build/pubsub.js"></script>
+	<style type="text/css">
+		.table,.table th{text-align: center}
+	</style>
+</head>
+<body>
+    <div class="container " id="studentInfo"> 
+    </div>
+    <script type="text/babel">
+             var studentData=[
+              {"name":"sun","sex":"男","age":"24","height":"175","weight":"65","_id":1},
+              {"name":"chen","sex":"女","age":"22","height":"170","weight":"50","_id":2},
+              {"name":"zhao","sex":"女","age":"21","height":"168","weight":"57","_id":3},
+              {"name":"qian","sex":"男","age":"25","height":"173","weight":"74","_id":4},
+              {"name":"li","sex":"女","age":"24","height":"171","weight":"61","_id":5},
+              {"name":"zhou","sex":"女","age":"23","height":"165","weight":54,"_id":6}
+             ];
+
+    	var StudentApp=React.createClass({
+    	   getInitialState:function(){
+    	      return {
+    	         studentInfo:studentData,
+    	         filterSex:"all",
+    	         filterName:""
+    	      }
+    	    },
+    	   sexFilter:function(event){
+    	         this.setState({filterSex:event.target.value})
+    	   },
+    	   nameFilter:function(event){
+    	         this.setState({filterName:event.target.value}) ; 
+    	   },
+    	   componentDidMount:function(){
+                      PubSub.subscribe("deleteItem",function(evName,_id){
+                            var newArr=this.state.studentInfo.filter(function(item){
+                                 return item._id!=_id;
+                            })
+                            this.setState({studentInfo:newArr})
+                      }.bind(this))
+    	   },
+    	   render:function(){
+    	      return (<div className="row">
+    	      	<h1>学员信息表</h1>
+    	      	<div>
+	    		<div className="form-group">
+		    	   <label for="">按性别查找</label>
+		    	   <select className="form-control" onChange={this.sexFilter}>
+		    	             <option value="all">全部</option>
+		    	   	<option value="0">男</option>
+		    	   	<option value="1">女</option>
+		    	   </select>
+		    	</div>
+		    	<div className="form-group">
+		    	   <label for="">按姓名查找</label><input type="text" className="form-control" placeholder="请输入名字" onKeyUp={this.nameFilter}/>
+		    	</div>
+	    	</div> 
+	    	<StudentTable  studentInfo={this.state.studentInfo} studentSex={this.state.filterSex} studentName={this.state.filterName}/>
+    	      </div>)
+    	   }
+    	});
+    	var  StudentTable=React.createClass({ 
+    	 render:function(){ 
+    	   var studentData=this.props.studentInfo;
+    	   var filterSex=this.props.studentSex;
+                var filterName=this.props.studentName;
+    	   var list=[];
+    	   var sex=["男","女"];
+    	   if(filterSex==="all"&&filterName===""){
+                       studentData.forEach(function(item,index){
+		   list.push(<StudentTr  studentPerson={item} key={index}/>);
+	          });
+    	   };
+    	   studentData.forEach(function(item,index){
+		  if(filterSex!=="all"){
+	                   if(filterName===""){
+	                       if(item.sex===sex[filterSex])
+	                       list.push(<StudentTr  studentPerson={item} key={index}/>);
+	                   }else{
+	                      if(item.sex===sex[filterSex]&&filterName===item.name)
+	                      list.push(<StudentTr  studentPerson={item} key={index}/>); 
+	                   }
+	               }else{
+	                   if(filterName===item.name)
+	                    list.push(<StudentTr  studentPerson={item} key={index}/>);
+	               }	  
+	                
+	   });  
+    	    return (
+                         <div className="table-responsive">
+	    		<table className="table table-striped table-bordered">
+	    			<thead>
+	    				<tr>
+	    					<th>姓名</th>
+	    					<th>性别</th>
+	    					<th>年龄</th>
+	    					<th>身高（cm）</th>
+	    					<th>体重（kg）</th>
+	    					<th>操作</th> 
+	    				</tr>
+	    			</thead>
+	    			<tbody>
+	    			     {list} 
+	    			</tbody>
+	    		</table>
+	    	</div>
+    	    )
+    	 }
+    	}); 
+    	var StudentTr=React.createClass({
+    	    delectItem:function(){
+                       PubSub.publish("deleteItem",this.props.studentPerson._id)
+    	    },
+    	    render:function(){
+    	        var person=this.props.studentPerson;
+    	        return (
+	    	 <tr>
+			<td>{person.name}</td>
+			<td>{person.sex}</td>
+			<td>{person.age}</td>
+			<td>{person.height}</td>
+			<td>{person.weight}</td>
+			<td><a href="javascript:void(0)" onClick={this.delectItem}>删除</a></td>
+		 </tr>
+    	        )
+    	    }
+    	})
+    	ReactDOM.render(
+    	   <StudentApp />,
+    	    document.getElementById("studentInfo")
+    	 );
+    </script>
+</body>
+</html>

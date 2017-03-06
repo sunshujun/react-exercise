@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./build/react.js"></script>
+	<script type="text/javascript" src="./build/react-dom.js"></script>
+	<script type="text/javascript" src="./build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+         var WebSite=React.createClass({
+             render:function(){
+                  return (
+                      <div>
+                      	  <Name  name={this.props.name}   />
+                      	  <Link   site={this.props.site}/>
+                      </div>
+                  )
+             }
+         })
+         var Name=React.createClass({
+              render:function(){
+                 return <p>{this.props.name}</p>
+              }
+         })
+         var Link=React.createClass({
+              render:function(){
+                 return <a href={this.props.site}>点击跳转</a>
+              }
+         })
+
+         ReactDOM.render(
+            <WebSite  name="百度一下"  site="http://www.baidu.com" />,
+            document.getElementById("example")
+         )
+    </script>
+</body>
+</html>

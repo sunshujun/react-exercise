@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="build/react.js"></script>
+	<script type="text/javascript" src="build/react-dom.js"></script>
+	<script type="text/javascript" src="build/browser.min.js"></script>
+</head>
+<body>
+     <div id="example"></div>
+     <script type="text/babel">
+     	var names=["sun","chen","ren","mao","zhong","li"]
+     	ReactDOM.render(
+               <div>
+                    {
+                      names.map(function(name){
+                          return <h1>hello,{name}!</h1>
+                      })
+                    }
+               </div>,
+               document.getElementById("example"),
+               function(){
+                  console.log("组件值存储在数组中");
+                  console.log(names)
+               }
+     	)
+     </script>
+</body>
+</html>
